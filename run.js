@@ -1,5 +1,8 @@
+require('dotenv').config();
 const { exec } = require('child_process');
 const path = require('path');
+
+const pythonPath = process.env.PYTHON_PATH || 'python3';
 
 // Function to run monitor.js
 function runMonitorJs() {
@@ -31,7 +34,7 @@ function installPythonDependencies() {
   const requirementsPath = path.join(__dirname, 'requirements.txt');
   console.log('Installing Python dependencies...');
 
-  const pipInstallProcess = exec(`python3 -m pip install -r ${requirementsPath}`);
+  const pipInstallProcess = exec(`${pythonPath} -m pip install -r ${requirementsPath}`);
 
   pipInstallProcess.stdout.on('data', (data) => {
     console.log(`pip install: ${data}`);
@@ -56,7 +59,7 @@ function runMainPy() {
   const mainPyPath = path.join(__dirname, 'main.py');
   console.log('Running main.py...');
 
-  const pythonProcess = exec(`python3 ${mainPyPath}`);
+  const pythonProcess = exec(`${pythonPath} ${mainPyPath}`);
 
   pythonProcess.stdout.on('data', (data) => {
     console.log(`Main.py: ${data}`);
